@@ -1,0 +1,30 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% if user.is_anonymous %}
+<script>alert('로그인 후 이용해주세요'); location.href='{% url 'user:login' %}'</script>
+{% endif %}
+{% if document_list %}
+
+<div class="mb-3">
+    <button class="btn btn-primary" onclick="location.href='{% url 'board:write' %}'"
+    >Write</button>
+</div>
+<table class="table">
+    <thead>
+        <tr class="table-dark">
+            <th><label>번호</label></th>
+            <th><label>제목</label></th>
+            <th><label>작성자</label></th>
+        </tr>
+        {% for doc in document_list %}
+        <tr onclick="location.href='{% url 'board:read' Did=doc.Did %}'">
+            <td>{{doc.Did}}</td>
+            <td>{{doc.title}}</td>
+            <td>{{doc.author}}</td>
+        </tr>
+        {% endfor %}
+    </thead>
+</table>
+
+{% endif %}
+{% endblock %}

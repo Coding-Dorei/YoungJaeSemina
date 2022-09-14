@@ -1,0 +1,19 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">title</label>
+            <input type="text" class="form-control" name="title" id="title"
+                   value="{{ form.title.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">content</label>
+            <textarea class="form-control" name="content"
+                      id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
+        {%csrf_token%}
+        <button type="submit" class="btn btn-primary">작성</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% if doc %}
+<div class="mb-3">
+    <label class="form-label">{{ doc.title }} by {{ doc.author }}</label>
+</div>
+<div class="mb-3">
+    <label for="content" class="form-label">content</label>
+    <textarea class="form-control" name="content" readonly
+              id="content" rows="10">{{ doc.content }}</textarea>
+</div>
+{% if doc.ownership %}
+<div class="mb-3">
+    <button id="delete" onclick="location.href='{% url 'board:delete' Did=doc.Did %}'">삭제</button>
+    <button id="edit" onclick="location.href='{% url 'board:edit' Did=doc.Did %}'">수정</button>
+</div>
+{% endif %}
+<div class="mb-3">
+    <form method="post" action="{% url 'board:comment' Did=doc.Did %}">
+        {% csrf_token %}
+        <label for="content" class="form-label">content</label>
+        <textarea class="form-control" name="comment"
+                  id="comment" rows="5"></textarea>
+        <button type="submit" class="btn btn-primary">write</button>
+    </form>
+</div>
+<div class="mb-3">
+    {% if comments %}
+        {% for comment in comments %}
+        <div>
+            <label>Comment by {{comment.author}}</label>
+            <pre>{{comment.content}}</pre>
+            {% if comment.ownership %}
+            <button onclick="location.href='{% url 'board:comment_delete' Cid=comment.Cid %}'">삭제</button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+    <h1>No Comments</h1>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
